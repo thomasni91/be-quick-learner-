@@ -1,0 +1,43 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-version:
+      docker: 18
+    commands:
+      # install node 16
+      # - echo Installing node 16...
+      # - curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+      # - apt install -y nodejs
+      # # install yarn
+      # - echo Installing yarn...
+      # - npm install --global yarn
+      # - yarn
+      - echo ECR logging...
+      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+  
+  pre_build: 
+    commands:
+      # install dependencies
+      # - echo Installing dependencies...
+      # - yarn
+      - echo Pre_build skipped
+
+  build:
+    commands:
+      # build
+      - echo Building image...
+      - docker build -t qlbe:latest --build-arg DB_USERNAME=${DB_USERNAME} --build-arg DB_PASSWORD=${DB_PASSWORD} --build-arg SECRET=${SECRET} --build-arg GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID} --build-arg SWAGGERURL_PRD=${SWAGGERURL_PRD} --build-arg SES_IAM_USER_ACCESS_KEY=${SES_IAM_USER_ACCESS_KEY} --build-arg SES_IAM_USER_SECRET_ACCESS_KEY=${SES_IAM_USER_SECRET_ACCESS_KEY} --build-arg SENDER_EMAIL_ADDRESS=${SENDER_EMAIL_ADDRESS} --build-arg PRODUCTION_URL=${PRODUCTION_URL} .
+      # Tag image
+      - echo Tag image...
+      - docker tag qlbe:latest $AWS_ECR_IMAGE
+
+  post_build:
+    commands:
+      # Push image
+      - echo Pushing image...
+      - docker push $AWS_ECR_IMAGE
+      - printf '[{"name":"%s", "imageUri":"%s"}]' $CONTAINER_NAME $AWS_ECR_IMAGE > imagedefinitions.json
+
+artifacts:
+  files: imagedefinitions.json

@@ -1,0 +1,5 @@
+dist
+serverless.yml
+.eslint.json
+yarn.lock
+bitbucket-pipelines.yml

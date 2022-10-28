@@ -1,0 +1,19 @@
+# Logs
+logs/
+.log
+*.log
+yarn-debug.log*
+yarn-error.log*
+logs
+# Dependency directories
+node_modules/
+globalConfig.json
+
+# dotenv environment variable files
+.env
+
+dist
+
+# Serverless directories
+.serverless/
+serverless.yml

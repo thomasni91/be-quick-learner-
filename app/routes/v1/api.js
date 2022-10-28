@@ -1,0 +1,24 @@
+import express from 'express';
+import authMiddleware from '../../middleware/authMiddlewares';
+import isUser from '../../middleware/isUser';
+import authRouter from './authentication';
+import userRouter from './user';
+import quizRouter from './quiz';
+import questionRouter from './question';
+import answerRouter from './answer';
+import quizType from './quizType';
+import takeQuizRouter from './takeQuiz';
+import sendEmail from './sendEmail';
+
+const router = express.Router();
+router.use('/auth', authRouter);
+router.use('/send-email', sendEmail);
+router.use(authMiddleware);
+router.use(isUser);
+router.use('/quiz-type', quizType);
+router.use('/users', userRouter);
+router.use('/quiz', quizRouter);
+router.use('/answer', answerRouter);
+router.use('/question', questionRouter);
+router.use('/take-quiz', takeQuizRouter);
+export default router;
