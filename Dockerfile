@@ -40,5 +40,5 @@ RUN npm install yarn
 RUN npm install -g babel-cli
 RUN yarn
 RUN yarn babel
-EXPOSE 3000
+EXPOSE 3001
 CMD [ "node", "dist/index.js" ]
