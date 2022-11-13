@@ -14,7 +14,7 @@ export default (app) => {
 	app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJsDoc));
 	app.use(config.api.prefix, apiRouter);
 	app.get('/', (req, res) => {
-		res.json({ hello: 'World.a' });
+		res.json({ hello: 'World.b' });
 		logger.info('Server Sent A Hello World!');
 	});
 	return app;
