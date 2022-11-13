@@ -5,27 +5,9 @@ phases:
     runtime-version:
       docker: 18
     commands:
-      # install node 16
-      # - echo Installing node 16...
-      # - curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
-      # - apt install -y nodejs
-      # # install yarn
-      # - echo Installing yarn...
-      # - npm install --global yarn
-      # - yarn
       - echo ECR logging...
-      - node -v
-      - aws --version
-      - docker -v
       # - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
       - aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin 473488110151.dkr.ecr.ap-southeast-2.amazonaws.com
-  pre_build: 
-    commands:
-      # install dependencies
-      # - echo Installing dependencies...
-      # - yarn
-      - echo Pre_build skipped
-
   build:
     commands:
       # build
@@ -44,9 +26,9 @@ phases:
       # - docker push $AWS_ECR_IMAGE
       - docker push 473488110151.dkr.ecr.ap-southeast-2.amazonaws.com/codepipeline:latest
       # - printf '[{"name":"%s", "imageUri":"%s"}]' $CONTAINER_NAME $AWS_ECR_IMAGE > imagedefinitions.json
-
-# artifacts:
-#   files: imagedefinitions.json
+      - echo '[{"name":"codebuild","imageUri":"473488110151.dkr.ecr.ap-southeast-2.amazonaws.com/codepipeline"}]' > imagedefinitions.json
+artifacts:
+  files: imagedefinitions.json
 
 # version: 0.2
 
