@@ -30,6 +30,7 @@ phases:
     commands:
       # build
       - echo Building image...
+      - systemctl start docker
       - docker -v
       # - docker build -t qlbe:latest --build-arg DB_USERNAME=${DB_USERNAME} --build-arg DB_PASSWORD=${DB_PASSWORD} --build-arg SECRET=${SECRET} --build-arg GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID} --build-arg SWAGGERURL_PRD=${SWAGGERURL_PRD} --build-arg SES_IAM_USER_ACCESS_KEY=${SES_IAM_USER_ACCESS_KEY} --build-arg SES_IAM_USER_SECRET_ACCESS_KEY=${SES_IAM_USER_SECRET_ACCESS_KEY} --build-arg SENDER_EMAIL_ADDRESS=${SENDER_EMAIL_ADDRESS} --build-arg PRODUCTION_URL=${PRODUCTION_URL} .
       - docker build -t codepipeline .
