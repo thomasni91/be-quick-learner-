@@ -6,8 +6,8 @@ phases:
       docker: 18
     commands:
       - echo ECR logging...
-      # - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
-      - aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin 473488110151.dkr.ecr.ap-southeast-2.amazonaws.com
+      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+      # - aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin 473488110151.dkr.ecr.ap-southeast-2.amazonaws.com
   build:
     commands:
       # build
