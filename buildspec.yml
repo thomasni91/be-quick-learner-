@@ -11,17 +11,13 @@ phases:
     commands:
       - echo ECR logging...
       - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
-      # - aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin 473488110151.dkr.ecr.ap-southeast-2.amazonaws.com
   build:
     commands:
       # build
       - echo Building image...
-      # - docker build -t codepipeline --build-arg NODE_ENV=${NODE_ENV} --build-arg APP_PORT=${APP_PORT} --build-arg APP_NAME=${APP_NAME} --build-arg API_PREFIX=${API_PREFIX} --build-arg MONGO_USERNAME=${MONGO_USERNAME} --build-arg MONGO_PASSWORD=${MONGO_PASSWORD} --build-arg MONGO_DATABASE=${MONGO_DATABASE} --build-arg MONGO_HOST=${MONGO_HOST} .
       - docker build -t codepipeline --build-arg DB_USERNAME=${DB_USERNAME} --build-arg DB_PASSWORD=${DB_PASSWORD} --build-arg SECRET=${SECRET} .
       # Tag image
       - echo Tag image...
-      # - docker tag qlbe:latest $AWS_ECR_IMAGE
-      # - docker tag codepipeline:latest 473488110151.dkr.ecr.ap-southeast-2.amazonaws.com/codepipeline:latest
       - docker tag codepipeline:latest $AWS_ECR_IMAGE
 
   post_build:
@@ -29,12 +25,7 @@ phases:
       # Push image
       - echo Pushing image...
       - docker push $AWS_ECR_IMAGE
-      # - docker push 473488110151.dkr.ecr.ap-southeast-2.amazonaws.com/codepipeline:latest
       - printf '[{"name":"%s", "imageUri":"%s"}]' $CONTAINER_NAME $AWS_ECR_IMAGE > imagedefinitions.json
-      # - echo '[{"name":"codebuild","imageUri":"473488110151.dkr.ecr.ap-southeast-2.amazonaws.com/codepipeline"}]' > imagedefinitions.json
-      # - echo '[{"name":"$CONTAINER_NAME","imageUri":"$AWS_ECR_IMAGE"}]' > imagedefinitions.json
-      - cat imagedefinitions.json
-      # - echo '[{"name":"<CONTAINER_NAME>","imageUri":"'<AWS_ECR_IMAGE>"}]' > imagedefinitions.json
 
 artifacts:
   files: imagedefinitions.json
