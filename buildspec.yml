@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   secrets-manager:
-    AWS_ACCOUNT_ID: "AWS_ACCOUNT_ID:AWS_ACCOUNT_I"
+    AWS_ACCOUNT_ID: "AWS_ACCOUNT_ID:AWS_ACCOUNT_ID"
 
 phases:
   install:
@@ -16,12 +16,13 @@ phases:
     commands:
       # build
       - echo Building image...
-      # - docker build -t qlbe:latest --build-arg DB_USERNAME=${DB_USERNAME} --build-arg DB_PASSWORD=${DB_PASSWORD} --build-arg SECRET=${SECRET} --build-arg GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID} --build-arg SWAGGERURL_PRD=${SWAGGERURL_PRD} --build-arg SES_IAM_USER_ACCESS_KEY=${SES_IAM_USER_ACCESS_KEY} --build-arg SES_IAM_USER_SECRET_ACCESS_KEY=${SES_IAM_USER_SECRET_ACCESS_KEY} --build-arg SENDER_EMAIL_ADDRESS=${SENDER_EMAIL_ADDRESS} --build-arg PRODUCTION_URL=${PRODUCTION_URL} .
-      # - docker build -t codepipeline .
+      # - docker build -t codepipeline --build-arg NODE_ENV=${NODE_ENV} --build-arg APP_PORT=${APP_PORT} --build-arg APP_NAME=${APP_NAME} --build-arg API_PREFIX=${API_PREFIX} --build-arg MONGO_USERNAME=${MONGO_USERNAME} --build-arg MONGO_PASSWORD=${MONGO_PASSWORD} --build-arg MONGO_DATABASE=${MONGO_DATABASE} --build-arg MONGO_HOST=${MONGO_HOST} .
+      - docker build -t codepipeline --build-arg DB_USERNAME=${DB_USERNAME} --build-arg DB_PASSWORD=${DB_PASSWORD} --build-arg SECRET=${SECRET} .
       # Tag image
       - echo Tag image...
       # - docker tag qlbe:latest $AWS_ECR_IMAGE
       # - docker tag codepipeline:latest 473488110151.dkr.ecr.ap-southeast-2.amazonaws.com/codepipeline:latest
+      - docker tag codepipeline:latest $AWS_ECR_IMAGE
 
   post_build:
     commands:
