@@ -30,9 +30,9 @@ phases:
       - echo Pushing image...
       - docker push $AWS_ECR_IMAGE
       # - docker push 473488110151.dkr.ecr.ap-southeast-2.amazonaws.com/codepipeline:latest
-      # - printf '[{"name":"%s", "imageUri":"%s"}]' $CONTAINER_NAME $AWS_ECR_IMAGE > imagedefinitions.json
+      - printf '[{"name":"%s", "imageUri":"%s"}]' $CONTAINER_NAME $AWS_ECR_IMAGE > imagedefinitions.json
       # - echo '[{"name":"codebuild","imageUri":"473488110151.dkr.ecr.ap-southeast-2.amazonaws.com/codepipeline"}]' > imagedefinitions.json
-      - echo '[{"name":"$CONTAINER_NAME","imageUri":"$AWS_ECR_IMAGE"}]' > imagedefinitions.json
+      # - echo '[{"name":"$CONTAINER_NAME","imageUri":"$AWS_ECR_IMAGE"}]' > imagedefinitions.json
 
 artifacts:
   files: imagedefinitions.json
